@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Client Image Uploader"
+version = "1.0.0"
+id = "artifacts/client-uploader"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20321
+
+[services.development]
+run = "pnpm --filter @workspace/client-uploader run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/client-uploader", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/client-uploader/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20321"
+BASE_PATH = "/"
